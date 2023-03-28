@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
-            android:text="Question 1:" />
+            android:text="Question " />
 
         <TextView
             android:id="@+id/titleView"
@@ -29,12 +29,27 @@
             android:text="Title" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/highlightsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Highlights" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RadioButton
+            android:id="@+id/radioButtonA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RadioButton" />
+
+        <RadioButton
+            android:id="@+id/radioButtonB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RadioButton" />
+
+        <RadioButton
+            android:id="@+id/radioButtonC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="RadioButton" />
+    </RadioGroup>
 
 </LinearLayout>
