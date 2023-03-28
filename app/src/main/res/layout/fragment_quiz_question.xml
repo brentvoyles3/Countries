@@ -18,15 +18,19 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="2dp"
             android:layout_weight="1"
-            android:text="Question " />
+            android:text="Question "
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/titleView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title" />
+            android:text="Title"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <RadioGroup
@@ -37,19 +41,26 @@
             android:id="@+id/radioButtonA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:text="RadioButton"
+            android:textSize="16sp"/>
 
         <RadioButton
             android:id="@+id/radioButtonB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:layout_marginLeft="30dp"
+            android:text="RadioButton"
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/radioButtonC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton" />
+            android:layout_marginLeft="30dp"
+            android:text="RadioButton"
+            android:textSize="16sp" />
     </RadioGroup>
 
 </LinearLayout>
