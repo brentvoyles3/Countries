@@ -1,5 +1,6 @@
 package edu.uga.cs.project4;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link QuizQuestionFragment#newInstance} factory method to
@@ -18,12 +20,12 @@ import android.widget.TextView;
 public class QuizQuestionFragment extends Fragment {
 
     private static final String[] questions = {
-            "1. Which continent is this country in?",
-            "2. Which continent is this country in?",
-            "3. Which continent is this country in?",
-            "4. Which continent is this country in?",
-            "5. Which continent is this country in?",
-            "6. Which continent is this country in?"
+            "Which continent is this country in?",
+            "Which continent is this country in?",
+            "Which continent is this country in?",
+            "Which continent is this country in?",
+            "Which continent is this country in?",
+            "Which continent is this country in?"
     };
 
     // Array of Quiz Questions
@@ -73,6 +75,8 @@ public class QuizQuestionFragment extends Fragment {
 
         TextView titleView = view.findViewById(R.id.titleView);
         TextView highlightsView = view.findViewById(R.id.highlightsView);
+
+
 
         titleView.setText(questions[quizNum]);
         highlightsView.setText( answerChoices[quizNum]);

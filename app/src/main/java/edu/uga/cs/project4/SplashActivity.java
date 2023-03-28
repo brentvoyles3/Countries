@@ -15,6 +15,9 @@ public class SplashActivity extends AppCompatActivity {
     private Button button;
     private Button resultsButton;
 
+    String[] countries = new String[195];
+    String[] continents = new String[195];
+
     /**
      * Creates an instance of the application.
      *
