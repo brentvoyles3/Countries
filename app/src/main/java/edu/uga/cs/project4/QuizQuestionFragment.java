@@ -3,12 +3,15 @@ package edu.uga.cs.project4;
 import android.content.Context;
 import android.os.Bundle;
 
+import java.util.Random;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 
@@ -20,22 +23,23 @@ import android.widget.TextView;
 public class QuizQuestionFragment extends Fragment {
 
     private static final String[] questions = {
-            "Which continent is this country in?",
-            "Which continent is this country in?",
-            "Which continent is this country in?",
-            "Which continent is this country in?",
-            "Which continent is this country in?",
-            "Which continent is this country in?"
+            "1. Which continent is this country in?",
+            "2. Which continent is this country in?",
+            "3. Which continent is this country in?",
+            "4. Which continent is this country in?",
+            "5. Which continent is this country in?",
+            "6. Which continent is this country in?"
     };
 
     // Array of Quiz Questions
     private static final String[] answerChoices = {
-            "North America \nEurope \nAsia",
-            "South America \nAfrica \nEurope",
-            "Europe \nNorth America \nAsia",
-            "Asia \nAntarctica \nAfrica",
-            "South America \nNorth America \nEurope",
-            "Asia \nSouth America \nEurope"
+            "North America",
+            "South America",
+            "Europe",
+            "Africa",
+            "Antarctica",
+            "Asia",
+            "Oceania"
     };
 
     // which Android version to display in the fragment
@@ -74,12 +78,26 @@ public class QuizQuestionFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         TextView titleView = view.findViewById(R.id.titleView);
-        TextView highlightsView = view.findViewById(R.id.highlightsView);
-
-
 
         titleView.setText(questions[quizNum]);
-        highlightsView.setText( answerChoices[quizNum]);
+
+        RadioButton radioButtonA = (RadioButton) view.findViewById(R.id.radioButtonA);
+        RadioButton radioButtonB = (RadioButton) view.findViewById(R.id.radioButtonB);
+        RadioButton radioButtonC = (RadioButton) view.findViewById(R.id.radioButtonC);
+
+        Random ran = new Random();
+        int choiceA = ran.nextInt(6);
+        radioButtonA.setText(answerChoices[choiceA]);
+        int choiceB = ran.nextInt(6);
+        while (choiceB == choiceA) {
+            choiceB = ran.nextInt(6);
+        } //while
+        radioButtonB.setText(answerChoices[choiceB]);
+        int choiceC = ran.nextInt(6);
+        while (choiceC == choiceA || choiceC == choiceB) {
+            choiceC = ran.nextInt(6);
+        } //while
+        radioButtonC.setText(answerChoices[choiceC]);
     } //onViewCreated
 
     public static int getNumberOfQuestions() {
