@@ -44,6 +44,7 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
 
     // This is a reference to the only instance for the helper.
     private static CountriesDBHelper helperInstance;
+
     Context context;
 
     // A Create table SQL statement to create a table for job leads.
@@ -80,6 +81,7 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
         db.execSQL( CREATE_COUNTRIES );
         Log.d( DEBUG_TAG, "Table " + TABLE_COUNTRIES + " created" );
 
+        //context.getApplicationContext();
         InputStream in_s = null;
         try {
             in_s = context.getAssets().open( "country_continents.csv" );
@@ -87,17 +89,12 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
             // read the CSV data
             CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
             String[] nextRow;
-            while( ( nextRow = reader.readNext() ) != null ) {
+            while ( ( nextRow = reader.readNext() ) != null ) {
 
                 // nextRow[] is an array of values from the line
 
                 // create the next table row for the layout
-                for( int i = 0; i < nextRow.length; i++ ) {
-                    /*
-                    String[] row = nextRow;
-                    values.put( COUNTRIES_COLUMN_NAME, row[i]);
-                    values.put( COUNTRIES_COLUMN_CONTINENT, row[i+1]);
-                     */
+                for ( int i = 0; i < nextRow.length; i++ ) {
 
                     String row = nextRow[i];
                     int delim = row.indexOf(", ");

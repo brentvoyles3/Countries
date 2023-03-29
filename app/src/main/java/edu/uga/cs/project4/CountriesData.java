@@ -81,7 +81,7 @@ public class CountriesData {
                         country.setId(id); // set the id (the primary key) of this object
                         // add it to the list
                         countries.add( country );
-                        Log.d(DEBUG_TAG, "Retrieved JobLead: " + country);
+                        Log.d(DEBUG_TAG, "Retrieved Country: " + country);
                     }
                 }
             }
@@ -126,5 +126,9 @@ public class CountriesData {
 
         return country;
     }
+
+    //store quizzes method
+
+    //prepare to store upcoming quiz method
 
 } //Countries
