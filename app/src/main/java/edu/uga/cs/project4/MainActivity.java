@@ -18,16 +18,4 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(avpAdapter);
     } //onCreate
 
-    /*
-    //Later, when we need to read from the cvs file:
-    InputStream ins = getAssets().open("country_continent.csv");
-    CSVReader reader = new CSVReader(new InputStreamReader(ins));
-    String[] nextRow;
-    while((nextRow = reader.readNext()) != null) {
-        for(int i = 0; i < nextRow.length; i++) {
-        String nextCell = nextRow[i];
-        ...
-    } //while
-    */
-
 } //MainActivity
