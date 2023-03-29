@@ -93,9 +93,20 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
 
                 // create the next table row for the layout
                 for( int i = 0; i < nextRow.length; i++ ) {
+                    /*
                     String[] row = nextRow;
                     values.put( COUNTRIES_COLUMN_NAME, row[i]);
                     values.put( COUNTRIES_COLUMN_CONTINENT, row[i+1]);
+                     */
+
+                    String row = nextRow[i];
+                    int delim = row.indexOf(", ");
+                    String country = row.substring(0, delim);
+                    int end = row.length();
+                    String continent = row.substring(delim + 2, end);
+
+                    values.put( COUNTRIES_COLUMN_NAME, country);
+                    values.put( COUNTRIES_COLUMN_CONTINENT, continent);
                 }
 
                 long id = db.insert( CountriesDBHelper.TABLE_COUNTRIES, null, values );
