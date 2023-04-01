@@ -27,6 +27,10 @@ import android.widget.TextView;
  */
 public class QuizQuestionFragment extends Fragment {
 
+    static List<Countries> countryQuestions;
+    CountriesData quizData;
+
+
     private static final String[] questions = {
             "1. Which continent is this country in?",
             "2. Which continent is this country in?",

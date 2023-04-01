@@ -1,7 +1,7 @@
 package edu.uga.cs.project4;
 
 public class Countries {
-    private long   id;
+    private long id;
     private String countryName;
     private String countryContinent;
 
@@ -17,33 +17,27 @@ public class Countries {
         this.countryContinent = countryContinent;
     }
 
-    public long getId()
-    {
+    public long getId() {
         return id;
     }
 
-    public void setId(long id)
-    {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getCountryName()
-    {
+    public String getCountryName() {
         return countryName;
     }
 
-    public void setCountryName(String companyName)
-    {
+    public void setCountryName(String companyName) {
         this.countryName = countryName;
     }
 
-    public String getContinent()
-    {
+    public String getContinent() {
         return countryContinent;
     }
 
-    public void setContinent(String countryContinent)
-    {
+    public void setContinent(String countryContinent) {
         this.countryContinent = countryContinent;
     }
 

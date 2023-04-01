@@ -32,15 +32,16 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/getCountry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Title"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/getCountry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Country"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <RadioGroup
         android:layout_width="match_parent"
