@@ -33,7 +33,7 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
     private static final String DEBUG_TAG = "CountriesDBHelper";
 
     private static final String DB_NAME = "countries.db";
-    private static final int DB_COUNTRIES = 1;
+    private static final int DB_VERSION = 1;
 
     // Define all names (strings) for table and column names.
     // This will be useful if we want to change these names later.
@@ -41,13 +41,18 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
     public static final String COUNTRIES_COLUMN_ID = "_id";
     public static final String COUNTRIES_COLUMN_NAME = "name";
     public static final String COUNTRIES_COLUMN_CONTINENT = "continent";
+    public static final String TABLE_QUIZZES = "quizzes";
+    public static final String QUIZZES_COLUMN_ID = "_id";
+    public static final String QUIZZES_COLUMN_SCORE = "score";
+    public static final String QUIZZES_COLUMN_DATE = "date";
 
     // This is a reference to the only instance for the helper.
     private static CountriesDBHelper helperInstance;
 
-    Context context;
+    private static Context context;
 
-    // A Create table SQL statement to create a table for job leads.
+    // A Create table SQL statement to create a table for countries and their
+    // matching continents.
     // Note that _id is an auto increment primary key, i.e. the database will
     // automatically generate unique id values as keys.
     private static final String CREATE_COUNTRIES =
@@ -57,11 +62,21 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
                     + COUNTRIES_COLUMN_CONTINENT + " TEXT"
                     + ")";
 
+    // A Create table SQL statement to create a table for quizzes taken.
+    // Note that _id is an auto increment primary key, i.e. the database will
+    // automatically generate unique id values as keys.
+    private static final String CREATE_QUIZZES =
+            "create table " + TABLE_QUIZZES + "("
+                    + QUIZZES_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + QUIZZES_COLUMN_SCORE + " TEXT, "
+                    + QUIZZES_COLUMN_DATE + " TEXT"
+                    + ")";
+
     // Note that the constructor is private!
     // So, it can be called only from
     // this class, in the getInstance method.
     private CountriesDBHelper( Context context ) {
-        super( context, DB_NAME, null, DB_COUNTRIES );
+        super( context, DB_NAME, null, DB_VERSION );
     }
 
     // Access method to the single instance of the class.
@@ -78,9 +93,14 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
     // it does not exist yet.
     @Override
     public void onCreate( SQLiteDatabase db ) {
+        db.execSQL( "drop table if exists " + TABLE_COUNTRIES );
+        db.execSQL( "drop table if exists " + TABLE_QUIZZES );
         db.execSQL( CREATE_COUNTRIES );
+        db.execSQL( CREATE_QUIZZES );
         Log.d( DEBUG_TAG, "Table " + TABLE_COUNTRIES + " created" );
+        new insertCSVData().execute(db);
 
+        /*
         //context.getApplicationContext();
         InputStream in_s = null;
         try {
@@ -113,8 +133,46 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
+        */
 
+    }
 
+    private class insertCSVData extends AsyncTask<SQLiteDatabase, SQLiteDatabase> {
+        @Override
+        protected SQLiteDatabase doInBackground(SQLiteDatabase... db) {
+            //context.getApplicationContext();
+            try {
+                int count = 0;
+                AssetManager manager = context.getAssets();
+                InputStream in_s = manager.open("country.continents.csv");
+                /*
+                InputStream in_s = null;
+                in_s = context.getAssets().open( "country_continents.csv" );
+                 */
+                Log.d(DEBUG_TAG, "InputStream opened");
+                CSVReader reader = new CSVReader( new InputStreamReader( in_s ) );
+                String[] nextRow;
+                while ( ( nextRow = reader.readNext() ) != null ) {
+                    ContentValues values = new ContentValues();
+                    values.put( CountriesDBHelper.COUNTRIES_COLUMN_NAME, nextRow[0]);
+                    values.put( CountriesDBHelper.COUNTRIES_COLUMN_CONTINENT, nextRow[1]);
+                    long id = db[0].insert( CountriesDBHelper.TABLE_COUNTRIES, null, values );
+                    count++;
+                    Log.d(DEBUG_TAG, "Inserted Id: " + id);
+                    Log.d(DEBUG_TAG, "Next row: " + nextRow);
+                }
+                manager.close();
+                Log.d(DEBUG_TAG, "Count of countries add (out of 195): " + count);
+            } catch (Exception e) {
+                Log.d(DEBUG_TAG, e.toString());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(SQLiteDatabase sqLiteDatabase) {
+            return;
+        }
     }
 
     // We should override onUpgrade method, which will be used to upgrade the database if
@@ -123,6 +181,7 @@ public class CountriesDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         db.execSQL( "drop table if exists " + TABLE_COUNTRIES );
+        db.execSQL( "drop table if exists " + TABLE_QUIZZES );
         onCreate( db );
         Log.d( DEBUG_TAG, "Table " + TABLE_COUNTRIES + " upgraded" );
     }

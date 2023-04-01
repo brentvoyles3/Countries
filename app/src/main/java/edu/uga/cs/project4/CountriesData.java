@@ -19,10 +19,18 @@ public class CountriesData {
     // this is a reference to our database; it is used later to run SQL commands
     private SQLiteDatabase db;
     private SQLiteOpenHelper quizQuestionDbHelper;
-    private static final String[] allColumns = {
+    public Context context;
+
+    private static final String[] allCountriesColumns = {
             CountriesDBHelper.COUNTRIES_COLUMN_ID,
             CountriesDBHelper.COUNTRIES_COLUMN_NAME,
             CountriesDBHelper.COUNTRIES_COLUMN_CONTINENT,
+    };
+
+    private static final String[] allQuizColumns = {
+            CountriesDBHelper.QUIZZES_COLUMN_ID,
+            CountriesDBHelper.QUIZZES_COLUMN_SCORE,
+            CountriesDBHelper.QUIZZES_COLUMN_DATE,
     };
 
     public CountriesData ( Context context ) {
@@ -48,6 +56,17 @@ public class CountriesData {
         return db.isOpen();
     }
 
+    public List<Countries> retrieveAllQuestions() {
+        ArrayList<Countries> question = new ArrayList<>();
+        Cursor cursor = null;
+
+        // Using to test
+        Countries question1 = new Countries("Afghanistan", "Asia");
+        question.add(question1);
+
+        return question;
+    }
+
     // Retrieve all job leads and return them as a List.
     // This is how we restore persistent objects stored as rows in the job leads table in the database.
     // For each retrieved row, we create a new JobLead (Java POJO object) instance and add it to the list.
@@ -58,7 +77,7 @@ public class CountriesData {
 
         try {
             // Execute the select query and get the Cursor to iterate over the retrieved rows
-            cursor = db.query( CountriesDBHelper.TABLE_COUNTRIES, allColumns,
+            cursor = db.query( CountriesDBHelper.TABLE_COUNTRIES, allCountriesColumns,
                     null, null, null, null, null );
 
             // collect all job leads into a List
@@ -131,4 +150,4 @@ public class CountriesData {
 
     //prepare to store upcoming quiz method
 
-} //Countries
+} //CountriesData
