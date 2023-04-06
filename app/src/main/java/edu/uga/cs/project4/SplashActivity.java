@@ -11,15 +11,15 @@ import android.widget.Button;
 
 import java.util.List;
 
+/**
+ * Initial page for the user displaying an introduction to the app
+ * and a transition to get started with the app.
+ */
 public class SplashActivity extends AppCompatActivity {
 
-    private static final String DEBUG_TAG = "Companies";
+    private static final String DEBUG_TAG = "SplashActivity";
 
     private Button button;
-    private Button resultsButton;
-
-    String[] countries = new String[195];
-    String[] continents = new String[195];
 
     /**
      * Creates an instance of the application.
@@ -30,12 +30,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d(DEBUG_TAG, "MainActivity.onCreate(): savedInstanceState: " + savedInstanceState);
+        Log.d(DEBUG_TAG, "SplashActivity.onCreate(): savedInstanceState: " + savedInstanceState);
 
         // this call will create the UI based on the screen in portrait orientation.
         setContentView(R.layout.activity_splash);
 
-        button = findViewById(R.id.button1);
+        button = findViewById(R.id.get_started);
 
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -54,20 +54,6 @@ public class SplashActivity extends AppCompatActivity {
 
             } //onClick
         }); //setOnClickListener
-
-        /*
-        resultsButton = findViewById(R.id.button2);
-
-        resultsButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                v.getContext().startActivity(intent);
-
-            } //onClick
-        }); //setOnClickListener
-        */
 
     } //onCreate
 
@@ -109,15 +95,6 @@ public class SplashActivity extends AppCompatActivity {
     } //on
 
     /**
-     * Performs any final clean up before an activity is destroyed.
-     */
-    @Override
-    protected void onDestroy() {
-        Log.d(DEBUG_TAG, "MainActivity.onDestroy()");
-        super.onDestroy();
-    } //on
-
-    /**
      * The current activity is being restarted and transitions from
      * invisible to visible.
      */
@@ -126,5 +103,14 @@ public class SplashActivity extends AppCompatActivity {
         Log.d(DEBUG_TAG, "MainActivity.onRestart()");
         super.onRestart();
     }//onRestart
+
+    /**
+     * Performs any final clean up before an activity is destroyed.
+     */
+    @Override
+    protected void onDestroy() {
+        Log.d(DEBUG_TAG, "MainActivity.onDestroy()");
+        super.onDestroy();
+    } //on
 
 } //SplashActivity

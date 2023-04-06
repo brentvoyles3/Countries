@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#66C0E4"
     android:orientation="vertical"
     tools:context=".SplashActivity">
 
@@ -24,12 +25,12 @@
         android:layout_gravity="center"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
-        android:layout_marginRight="10dp"
-        android:text="Think you know your geography? Let's test that out! Click the Take Quiz button to get started and answer 6 simple questions to see what you know!"
+        android:layout_marginRight="20dp"
+        android:text="@string/splash_text"
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/GoodLuckTextView"
+        android:id="@+id/splash_intro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -39,21 +40,12 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/get_started"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:text="Take Quiz"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="40dp"
-        android:text="My Results"
+        android:text="Get Started"
         android:textAllCaps="false" />
 
     <ScrollView

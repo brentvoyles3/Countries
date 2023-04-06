@@ -1,5 +1,24 @@
 <resources>
-    <string name="app_name">Project4</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Country Quiz</string>
+    <string name="splash_text">Think you know your geography? Let\'s test that out! Click the Take Quiz button to get started and answer 6 simple questions to see what you know!</string>
+    <string name="drawer_open">Open the navigation drawer</string>
+    <string name="drawer_close">Close the navigation drawer</string>
+    <string name="help_text">
+        <![CDATA[
+            <h3>How to use</h3> <p>Welcome, we are so excited for you o test your geographic knowledge, but first we need to how to use the app.
+            Each quiz includes the <i>date</i> and <i>score</i> once completed.
+            Open the navigation drawer to view the navigation menu.  Here, you will be able to invoke the app\'s functions.
+            You will be able to access the following screens:<br/><br/>
+             <b>Take Quiz</b><br/>
+             Here, you will be able to take a 6 questions quiz to test yourself on country to continent knowledge. You can take as many quizzes
+             as you woulld like, and after the completion of each quiz, you will be presented with your score, along with the date you completed the quiz.<br/><br/>
+             <b>Review Quizzes</b><br/>
+             Here, you will be able to review all (completed) past quizzes.  You will be presented with all of your previously taken quizzes with information such as
+             the date the quiz was completed and the score you made on each particular quiz, with the most recent quizzes on the top of the list.
+             <b>Get help</b><br/>
+             Useful help information about the app will be displayed.<br/><br/>
+             <b>Close app</b><br/>
+             The will close the app.<br/><br/>
+        ]]>
+    </string>
 </resources>

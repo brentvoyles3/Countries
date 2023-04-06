@@ -6,16 +6,20 @@ import java.util.concurrent.Executors;
 import android.os.Handler;
 import android.os.Looper;
 
-
 /** This is a replacement class for the Android's  AsyncTask class.
  * However, handling of the task's progress has not been implemented.
  * It uses Java's standard concurrency framework.
+ *
  * @param <Param> type of the input parameter for doInBackground
  * @param <Result> type of the result value returned by doInBackground
  */
 public abstract class AsyncTask<Param,Result> {
 
-    // An internal method to execute something in background
+    /**
+     * An internal method to execute something in background.
+     *
+     * @param params
+     */
     private void executeInBackground( Param... params ) {
 
         // Get en executor service -- it will serve to run the task
@@ -60,6 +64,9 @@ public abstract class AsyncTask<Param,Result> {
             // Post the processing of the result of the doInBackground method
             // on the main UI thread's looper.
             handler.post( new Runnable() {
+                /**
+                 * This method is just like in the AsyncTask class.
+                 */
                 @Override
                 public void run() {
                     // handle the method result in the main UI thread
@@ -69,12 +76,28 @@ public abstract class AsyncTask<Param,Result> {
         });
     }
 
-    // This method is just like in the AsyncTask class
+    /**
+     * This method is just like in the AsyncTask class.
+     *
+     * @param arguments
+     */
     public void execute( Param... arguments ){
         executeInBackground( arguments );
     }
 
-    // These abstract methods are just like in the AsyncTask class
+    /**
+     * This abstract method are just like in the AsyncTask class.
+     *
+     * @param arguments
+     * @return Result
+     */
     protected abstract Result doInBackground( Param... arguments );
+
+    /**
+     * This abstract method are just like in the AsyncTask class.
+     *
+     * @param result
+     */
     protected abstract void onPostExecute( Result result );
+
 }

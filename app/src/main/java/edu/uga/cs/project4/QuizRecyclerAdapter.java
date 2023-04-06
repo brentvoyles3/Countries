@@ -17,69 +17,105 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is an adapter class for the RecyclerView to show all job leads.
+ * This is an adapter class for the RecyclerView to show all past quiz results.
  */
 public class QuizRecyclerAdapter
-        extends RecyclerView.Adapter<QuizRecyclerAdapter.QuizHolder>
+        extends RecyclerView.Adapter<QuizRecyclerAdapter.CardHolder>
         implements Filterable {
 
-    public static final String DEBUG_TAG = "JobLeadRecyclerAdapter";
+    public static final String DEBUG_TAG = "QuizRecyclerAdapter";
 
     private final Context context;
+    private List<QuizInfo> values;
+    private List<QuizInfo> originalValues;
 
-    private List<Countries> values;
-    private List<Countries> originalValues;
-
-    public QuizRecyclerAdapter( Context context, List<Countries> quizList ) {
+    /**
+     * Constructor for {@link QuizRecyclerAdapter}.
+     *
+     * @param context The activities context.
+     * @param quizList The quiz information.
+     */
+    public QuizRecyclerAdapter(Context context, List<QuizInfo> quizList ) {
         this.context = context;
         this.values = quizList;
-        this.originalValues = new ArrayList<Countries>( quizList );
+        this.originalValues = new ArrayList<>( quizList );
     }
 
-    // reset the originalValues to the current contents of values
+    /**
+     * Resets the originalValues to the current contents of values.
+     */
     public void sync()
     {
-        originalValues = new ArrayList<Countries>( values );
+        originalValues = new ArrayList<>( values );
     }
 
-    // The adapter must have a ViewHolder class to "hold" one item to show.
-    public static class QuizHolder extends RecyclerView.ViewHolder {
+    /**
+     * Class for the CardHolder view that will display the score and date
+     * of each past quiz.
+     */
+    public static class CardHolder extends RecyclerView.ViewHolder {
 
-        TextView countryName;
-        TextView continent;
+        TextView date;
+        TextView score;
 
-        public QuizHolder( View itemView ) {
+        /**
+         * Card representation of each individual quiz.
+         *
+         * @param itemView View for each individual quiz result.
+         */
+        public CardHolder( View itemView ) {
             super( itemView );
 
-            countryName = itemView.findViewById( R.id.countryName );
-            continent = itemView.findViewById( R.id.continent );
+            score = itemView.findViewById( R.id.Textdate );
+            date = itemView.findViewById( R.id.Textscore );
         }
+
     }
 
+    /**
+     * Creates a new view holder when there is no existing view holder which the
+     * {@code RecyclerView} can reuse.
+     *
+     * @param parent The ViewGroup into which the new View will be added after it is bound to
+     *               an adapter position.
+     * @param viewType The view type of the new View.
+     *
+     * @return CardHolder
+     */
     @NonNull
     @Override
-    public QuizHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
+    public CardHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
         // We need to make sure that all CardViews have the same, full width, allowed by the parent view.
         // This is a bit tricky, and we must provide the parent reference (the second param of inflate)
         // and false as the third parameter (don't attach to root).
         // Consequently, the parent view's (the RecyclerView) width will be used (match_parent).
-        View view = LayoutInflater.from( parent.getContext()).inflate( R.layout.quiz_card, parent, false );
-        return new QuizHolder( view );
+        View view = LayoutInflater.from( parent.getContext()).inflate( R.layout.quiz_result_card, parent, false );
+        return new CardHolder( view );
     }
 
-    // This method fills in the values of a holder to show a JobLead.
-    // The position parameter indicates the position on the list of jobs list.
+    /**
+     * Fills in the values of a holder to show the quiz results.
+     *
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the list within the adapter's data set.
+     */
     @Override
-    public void onBindViewHolder( QuizHolder holder, int position ) {
+    public void onBindViewHolder( CardHolder holder, int position ) {
 
-        Countries country = values.get( position );
+        QuizInfo quiz = values.get( position );
 
-        Log.d( DEBUG_TAG, "onBindViewHolder: " + country );
+        Log.d( DEBUG_TAG, "onBindViewHolder: " + quiz );
 
-        holder.countryName.setText(country.getCountryName());
-        holder.continent.setText( country.getContinent() );
+        holder.date.setText( quiz.getDate());
+        holder.score.setText( quiz.getScore() );
     }
 
+    /**
+     * Returns the number of items on the list.
+     *
+     * @return int
+     */
     @Override
     public int getItemCount() {
         if( values != null )
@@ -88,33 +124,36 @@ public class QuizRecyclerAdapter
             return 0;
     }
 
+    /**
+     * Returns a filter that can be used to constrain data with a filtering pattern.
+     *
+     * @return Filter
+     */
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
 
+            /**
+             * Invoked in a worker thread to filter the data according to the constraint.
+             *
+             * @param constraint The constraint used to filter the data.
+             * @return FilterResults
+             */
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<Countries> list = new ArrayList<Countries>( originalValues );
+                List<QuizInfo> list = new ArrayList<>( originalValues );
                 FilterResults filterResults = new FilterResults();
-                if(constraint == null || constraint.length() == 0) {
+                if (constraint == null || constraint.length() == 0) {
                     filterResults.count = list.size();
                     filterResults.values = list;
-                }
-                else{
-                    List<Countries> resultsModel = new ArrayList<>();
+                } else {
+                    List<QuizInfo> resultsModel = new ArrayList<>();
                     String searchStr = constraint.toString().toLowerCase();
 
-                    for( Countries country : list ) {
-                        // check if either the company name or the comments contain the search string
-                        if( country.getCountryName().toLowerCase().contains( searchStr ) ) {
-                            resultsModel.add( country );
+                    for ( QuizInfo quiz : list ) {
+                        if ( quiz.getDate().toLowerCase().contains( searchStr )) {
+                            resultsModel.add( quiz );
                         }
-/*
-                        // this may be a faster approach with a long list of items to search
-                        if( jobLead.getCompanyName().regionMatches( true, i, searchStr, 0, length ) )
-                            return true;
-
- */
                     }
 
                     filterResults.count = resultsModel.size();
@@ -124,9 +163,15 @@ public class QuizRecyclerAdapter
                 return filterResults;
             }
 
+            /**
+             *Invoked when thread to publish the filtering results in the user interface.
+             *
+             * @param constraint The constraint used to filter the data.
+             * @param results The results of the filtering operation.
+             */
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                values = (ArrayList<Countries>) results.values;
+                values = (ArrayList<QuizInfo>) results.values;
                 notifyDataSetChanged();
                 if( values.size() == 0 ) {
                     Toast.makeText( context, "Not Found", Toast.LENGTH_LONG).show();
