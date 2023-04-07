@@ -25,7 +25,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/Textdate"
+                android:id="@+id/TextDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Score"
@@ -33,7 +33,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/Textscore"
+                android:id="@+id/TextScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Date"

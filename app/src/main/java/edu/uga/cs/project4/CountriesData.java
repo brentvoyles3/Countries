@@ -27,7 +27,7 @@ public class CountriesData {
     private SQLiteDatabase db;
     private final SQLiteOpenHelper countriesDbHelper;
 
-    private static final String[] allQuizColumns = {
+    private static final String[] allColumns = {
             CountriesDBHelper.QUIZZES_COLUMN_ID,
             CountriesDBHelper.QUIZZES_COLUMN_SCORE,
             CountriesDBHelper.QUIZZES_COLUMN_DATE
@@ -56,6 +56,16 @@ public class CountriesData {
             countriesDbHelper.close();
             Log.d(DEBUG_TAG, "db closed");
         }
+    }
+
+    /**
+     * Returns true if the database is opened.
+     *
+     * @return boolean
+     */
+    public boolean isDBOpen()
+    {
+        return db.isOpen();
     }
 
     /**
@@ -503,39 +513,54 @@ public class CountriesData {
      * @return List<QuizInfo> List containing all of the results of past (completed) quizzes.
      */
     public List<QuizInfo> retrieveAllQuizzes() {
-
         ArrayList<QuizInfo> quizzes = new ArrayList<>();
         Cursor cursor = null;
-        QuizInfo quiz;
+        int columnIndex;
 
         try {
-            cursor = db.query( CountriesDBHelper.TABLE_QUIZZES, allQuizColumns,
+            // Execute the select query and get the Cursor to iterate over the retrieved rows
+            cursor = db.query( CountriesDBHelper.TABLE_QUIZZES, allColumns,
                     null, null, null, null, null );
 
-            long id = cursor.getLong( cursor.getColumnIndexOrThrow( CountriesDBHelper.QUIZZES_COLUMN_ID ) );
-            if( cursor.getCount() > 1 ) {
+            // collect all job leads into a List
+            if( cursor != null && cursor.getCount() > 0 ) {
+
                 while( cursor.moveToNext() ) {
-                    String date = cursor.getString( cursor.getColumnIndexOrThrow( CountriesDBHelper.QUIZZES_COLUMN_DATE ) );
-                    int score = Integer.parseInt(cursor.getString( cursor.getColumnIndexOrThrow( CountriesDBHelper.QUIZZES_COLUMN_SCORE ) ));
-                    quiz = new QuizInfo(score, date);
-                    quiz.setId( id );
-                    quizzes.add( quiz );
-                    Log.d( DEBUG_TAG, "Retrieved Quiz: " + quiz );
-                    id++;
+
+                    if( cursor.getColumnCount() >= 5) {
+
+                        // get all attribute values of this job lead
+                        columnIndex = cursor.getColumnIndex( CountriesDBHelper.QUIZZES_COLUMN_ID );
+                        long id = cursor.getLong( columnIndex );
+                        columnIndex = cursor.getColumnIndex( CountriesDBHelper.QUIZZES_COLUMN_SCORE );
+                        int score = cursor.getInt( columnIndex );
+                        columnIndex = cursor.getColumnIndex( CountriesDBHelper.QUIZZES_COLUMN_DATE );
+                        String date = cursor.getString( columnIndex );
+
+                        // create a new JobLead object and set its state to the retrieved values
+                        QuizInfo quiz = new QuizInfo(score, date);
+                        quiz.setId(id); // set the id (the primary key) of this object
+                        // add it to the list
+                        quizzes.add( quiz );
+                        Log.d(DEBUG_TAG, "Retrieved JobLead: " + quiz);
+                    }
                 }
             }
-            Log.d( DEBUG_TAG, "Number of Quizzes from DB: " + cursor.getCount() );
+            if( cursor != null )
+                Log.d( DEBUG_TAG, "Number of records from DB: " + cursor.getCount() );
+            else
+                Log.d( DEBUG_TAG, "Number of records from DB: 0" );
         }
         catch( Exception e ){
-            Log.d( DEBUG_TAG, "Exception: " + e );
+            Log.d( DEBUG_TAG, "Exception caught: " + e );
         }
         finally{
-            // close the cursor
+            // we should close the cursor
             if (cursor != null) {
                 cursor.close();
             }
         }
-        // return a list of retrieved quizzes
+        // return a list of retrieved job leads
         return quizzes;
     }
 
@@ -567,7 +592,7 @@ public class CountriesData {
         // store the id (the primary key) in the Questions instance, as it is now persistent
         qa.setId( id );
 
-        Log.d( DEBUG_TAG, "Stored quiz with id: " + String.valueOf( qa.getId() ) );
+        Log.d( DEBUG_TAG, "Stored question with id: " + String.valueOf( qa.getId() ) );
 
         return qa;
     }

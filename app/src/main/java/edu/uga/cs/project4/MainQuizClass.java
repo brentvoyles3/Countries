@@ -157,7 +157,6 @@ public class MainQuizClass extends AppCompatActivity {
                     setContentView(R.layout.quiz_result);
 
                     resultTextView = (TextView) findViewById(R.id.score);
-                    ////////
                     resultPercentage = (TextView) findViewById(R.id.percentage);
                     message = (TextView) findViewById(R.id.message);
                     dateTextView = (TextView) findViewById(R.id.date);
@@ -168,7 +167,6 @@ public class MainQuizClass extends AppCompatActivity {
                     float f = (float) intScore;
                     float percent = (f / 6) * 100;
                     String makePercent = String.format("%.0f%%",percent);
-                    //String strScore = activeQuiz.getStrScore() + " out of 6 (" + makePercent + ")";
                     String strScore = activeQuiz.getStrScore() + " out of 6";
                     resultTextView.setText(strScore);
 
@@ -511,50 +509,29 @@ public class MainQuizClass extends AppCompatActivity {
      */
     public class QuizDBWriter extends AsyncTask<QuizInfo, QuizInfo> {
 
-        // This method will run as a background process to write into db.
-        // It will be automatically invoked by Android, when we call the execute method
-        // in the onClick listener of the Save button.
+        /**
+         * Runs as a background process to write into the db.
+         * @param quiz The quiz object.
+         * @return QuizInfo
+         */
         @Override
         protected QuizInfo doInBackground( QuizInfo... quiz ) {
             quizQuestionsData.storeQuiz( quiz[0] );
             return quiz[0];
         }
 
-        // This method will be automatically called by Android once the writing to the database
-        // in a background process has finished.  Note that doInBackground returns a JobLead object.
-        // That object will be passed as argument to onPostExecute.
-        // onPostExecute is like the notify method in an asynchronous method call discussed in class.
+        /**
+         * This method will be automatically called by Android once the writing to the database
+         * in a background process has finished.
+         * @param quiz The quiz object.
+         */
         @Override
         protected void onPostExecute( QuizInfo quiz ) {
             // Show a quick confirmation message
             //Toast.makeText( getActivity(), "Quiz result created for " + quiz.getId(),Toast.LENGTH_SHORT).show();
 
-            Log.d( "QUIZDBWRITER", "Job lead saved: " + quiz );
+            Log.d( "QUIZDBWRITER", "Quiz saved: " + quiz );
         }
     }
-    //private static class QuizDBWriterTask extends AsyncTask<QuizInfo, QuizInfo> {
-
-        ///**
-         //* Stores the quiz information while the user is taking the quiz.
-         //*
-         //* @param quiz The quiz information.
-         //* @return QuizInfo
-         //*/
-        //@Override
-        //protected QuizInfo doInBackground( QuizInfo... quiz ) {
-        //    quizQuestionsData.storeQuiz( quiz[0] );
-        //    return quiz[0];
-        //}
-
-        ///**
-         //* After quiz is completed, the quiz results should be stored to the database.
-         //*
-         //* @param quizVariables The quiz information.
-         //*/
-        //@Override
-        //protected void onPostExecute(QuizInfo quizVariables) {
-
-        //}
-    //}
 
 }

@@ -20,7 +20,7 @@ import java.util.List;
  * This is an adapter class for the RecyclerView to show all past quiz results.
  */
 public class QuizRecyclerAdapter
-        extends RecyclerView.Adapter<QuizRecyclerAdapter.CardHolder>
+        extends RecyclerView.Adapter<QuizRecyclerAdapter.QuizResultHolder>
         implements Filterable {
 
     public static final String DEBUG_TAG = "QuizRecyclerAdapter";
@@ -53,7 +53,7 @@ public class QuizRecyclerAdapter
      * Class for the CardHolder view that will display the score and date
      * of each past quiz.
      */
-    public static class CardHolder extends RecyclerView.ViewHolder {
+    public static class QuizResultHolder extends RecyclerView.ViewHolder {
 
         TextView date;
         TextView score;
@@ -63,11 +63,11 @@ public class QuizRecyclerAdapter
          *
          * @param itemView View for each individual quiz result.
          */
-        public CardHolder( View itemView ) {
+        public QuizResultHolder( View itemView ) {
             super( itemView );
 
-            score = itemView.findViewById( R.id.Textdate );
-            date = itemView.findViewById( R.id.Textscore );
+            score = itemView.findViewById( R.id.TextDate );
+            date = itemView.findViewById( R.id.TextScore );
         }
 
     }
@@ -84,13 +84,13 @@ public class QuizRecyclerAdapter
      */
     @NonNull
     @Override
-    public CardHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
+    public QuizResultHolder onCreateViewHolder( ViewGroup parent, int viewType ) {
         // We need to make sure that all CardViews have the same, full width, allowed by the parent view.
         // This is a bit tricky, and we must provide the parent reference (the second param of inflate)
         // and false as the third parameter (don't attach to root).
         // Consequently, the parent view's (the RecyclerView) width will be used (match_parent).
         View view = LayoutInflater.from( parent.getContext()).inflate( R.layout.quiz_result_card, parent, false );
-        return new CardHolder( view );
+        return new QuizResultHolder( view );
     }
 
     /**
@@ -101,14 +101,18 @@ public class QuizRecyclerAdapter
      * @param position The position of the list within the adapter's data set.
      */
     @Override
-    public void onBindViewHolder( CardHolder holder, int position ) {
+    public void onBindViewHolder( QuizResultHolder holder, int position ) {
 
         QuizInfo quiz = values.get( position );
 
         Log.d( DEBUG_TAG, "onBindViewHolder: " + quiz );
 
-        holder.date.setText( quiz.getDate());
-        holder.score.setText( quiz.getScore() );
+        String strScore = quiz.getStrScore() + " out of 6";
+
+        holder.score.setText(strScore);
+        //holder.score.setText(quiz.getScore());
+        holder.date.setText(quiz.getDate());
+        //holder.score.setText(quiz.getScore());
     }
 
     /**
