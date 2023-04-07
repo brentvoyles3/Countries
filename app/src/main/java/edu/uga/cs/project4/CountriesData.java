@@ -584,7 +584,7 @@ public class CountriesData {
 
         // Prepare the values for all of the necessary columns in the table
         // and set their values to the variables of the QuizInfo argument.
-        // This is how we are providing persistence to a JobQuizInfoLead (Java object) instance
+        // This is how we are providing persistence to a QuizInfo (Java object) instance
         // by storing it as a new row in the database table representing quiz results.
         ContentValues values = new ContentValues();
         values.put( CountriesDBHelper.QUIZZES_COLUMN_SCORE, quiz.getScore());

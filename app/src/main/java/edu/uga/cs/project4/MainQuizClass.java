@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -101,7 +103,7 @@ public class MainQuizClass extends AppCompatActivity {
             list.add(i);
         }
 
-        //randomly selects six states to use for the quiz questions
+        //randomly selects six countries to use for the quiz questions
         Random rand = new Random();
         for (int i = 0; i < 7; i++) {
             int index = rand.nextInt(list.size());
@@ -195,12 +197,14 @@ public class MainQuizClass extends AppCompatActivity {
                     //allows user to immediately take another quiz
                     takeAgain = (Button) findViewById(R.id.take_again);
                     takeAgain.setOnClickListener(view -> {
+                        new QuizDBWriter().execute( activeQuiz );
                         Intent switchActivityIntent = new Intent(MainQuizClass.this, MainQuizClass.class);
                         startActivity(switchActivityIntent);
                     });
 
                     returnHome = (Button) findViewById(R.id.return_button);
                     returnHome.setOnClickListener(view -> {
+                        new QuizDBWriter().execute( activeQuiz );
                         Intent switchActivityIntent = new Intent(MainQuizClass.this, MainActivity.class);
                         startActivity(switchActivityIntent);
                     });
@@ -505,29 +509,52 @@ public class MainQuizClass extends AppCompatActivity {
      * An AsyncTask to store quizzes taken by the user to the database as the quizzes
      * are completed.
      */
-    private static class QuizDBWriterTask extends AsyncTask<QuizInfo, QuizInfo> {
+    public class QuizDBWriter extends AsyncTask<QuizInfo, QuizInfo> {
 
-        /**
-         * Stores the quiz information while the user is taking the quiz.
-         *
-         * @param quiz The quiz information.
-         * @return QuizInfo
-         */
+        // This method will run as a background process to write into db.
+        // It will be automatically invoked by Android, when we call the execute method
+        // in the onClick listener of the Save button.
         @Override
         protected QuizInfo doInBackground( QuizInfo... quiz ) {
             quizQuestionsData.storeQuiz( quiz[0] );
             return quiz[0];
         }
 
-        /**
-         * After quiz is completed, the quiz results should be stored to the database.
-         *
-         * @param quizVariables The quiz information.
-         */
+        // This method will be automatically called by Android once the writing to the database
+        // in a background process has finished.  Note that doInBackground returns a JobLead object.
+        // That object will be passed as argument to onPostExecute.
+        // onPostExecute is like the notify method in an asynchronous method call discussed in class.
         @Override
-        protected void onPostExecute(QuizInfo quizVariables) {
+        protected void onPostExecute( QuizInfo quiz ) {
+            // Show a quick confirmation message
+            //Toast.makeText( getActivity(), "Quiz result created for " + quiz.getId(),Toast.LENGTH_SHORT).show();
 
+            Log.d( "QUIZDBWRITER", "Job lead saved: " + quiz );
         }
     }
+    //private static class QuizDBWriterTask extends AsyncTask<QuizInfo, QuizInfo> {
+
+        ///**
+         //* Stores the quiz information while the user is taking the quiz.
+         //*
+         //* @param quiz The quiz information.
+         //* @return QuizInfo
+         //*/
+        //@Override
+        //protected QuizInfo doInBackground( QuizInfo... quiz ) {
+        //    quizQuestionsData.storeQuiz( quiz[0] );
+        //    return quiz[0];
+        //}
+
+        ///**
+         //* After quiz is completed, the quiz results should be stored to the database.
+         //*
+         //* @param quizVariables The quiz information.
+         //*/
+        //@Override
+        //protected void onPostExecute(QuizInfo quizVariables) {
+
+        //}
+    //}
 
 }
